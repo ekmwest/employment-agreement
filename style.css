@@ -37,14 +37,64 @@ body {
 
 
 /* ==========================================================================
+   HEADER
+   ========================================================================== */
+
+header {
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background-color: #005cbd;
+    height: 56px;
+}
+
+.print header {
+    display: none;
+}
+
+
+
+/* ==========================================================================
+   HEADER BUTTON
+   ========================================================================== */
+
+header button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    color: #fff;
+    border-radius: 50%;
+    transition: background-color .12s;
+}
+
+header button:hover {
+    background-color: rgba(0, 0, 0, .2);
+}
+
+header button svg {
+    width: 20px;
+    height: 20px;
+}
+
+
+
+/* ==========================================================================
    Main
    ========================================================================== */
 
 main {
     background-color: #fff;
-    /* max-width: 660px; */
     width: 660px;
-    min-height: 968px;
+    min-height: 1000px;
     margin: 32px auto;
     padding: 64px;
     border-radius: 2px;
@@ -52,7 +102,7 @@ main {
 }
 
 .print main {
-    max-width: unset;
+    width: unset;
     margin: 0;
     border-radius: 0;
     box-shadow: none;
