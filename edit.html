@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" class="form">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Anställningsavtal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/print.css">
+    <script src="/script.js"></script>
+</head>
+
+<body>
+    <form>
+
+        <h2>Arbetstagare</h2>
+
+        <label>
+            <span>Namn</span>
+            <input type="text" class="employee-name">
+        </label>
+
+        <label>
+            <span>Personnummer</span>
+            <input type="text" class="employee-social-security-number">
+        </label>
+
+        <label>
+            <span>Adress</span>
+            <input type="text" class="employee-address">
+        </label>
+
+        <label>
+            <span>Postnummer</span>
+            <input type="text" class="employee-postal-number">
+        </label>
+
+        <label>
+            <span>Ort</span>
+            <input type="text" class="employee-city">
+        </label>
+
+
+        <h2>Anställning</h2>
+
+        <label>
+            <span>Tillträde</span>
+            <input type="text" class="employment-begins">
+        </label>
+
+        <label>
+            <span>Roll</span>
+            <input type="text" class="employment-role">
+        </label>
+
+
+        <h2>Lön</h2>
+
+        <label>
+            <span>Ingångslön</span>
+            <input type="text" class="salary-initial-amount">
+        </label>
+
+        <label>
+            <span>Bank</span>
+            <input type="text" class="salary-account-bank-name">
+        </label>
+
+        <label>
+            <span>Kontonummer</span>
+            <input type="text" class="salary-account-number">
+        </label>
+
+
+        <div class="buttons">
+            <button type="button" onclick="history.back();">Avbryt</button>
+            <button type="button" onclick="saveForm();" class="PRIMARY">Spara</button>
+        </div>
+    </form>
+</body>
+
+</html>

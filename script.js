@@ -39,8 +39,8 @@ document.addEventListener('DOMContentLoaded', loadAgreement);
 
 function loadAgreement() {
     const agreementId = getAgreementId();
-    const agreementData = getAgreementData(agreementId);
-    hydrate(agreementData);
+    const [agreementData, agreementTemplateData] = getAgreementData(agreementId);
+    hydrate(agreementData, agreementTemplateData);
 }
 
 
@@ -51,10 +51,10 @@ function loadAgreement() {
 
 function getAgreementData(agreementId) {
     if (!agreementId) {
-        return getAgreementTemplateData();
+        return [getAgreementTemplateData(), getAgreementTemplateData()];
     }
 
-    return getAgreementDataFromStorage(agreementId);
+    return [getAgreementDataFromStorage(agreementId), getAgreementTemplateData()];
 }
 
 
@@ -76,7 +76,7 @@ function getAgreementId() {
 
 function getAgreementTemplateData() {
     return {
-        [MODEL_PROPERTY.EMPLOYEE_NAME]: 'Anna Bentsson',
+        [MODEL_PROPERTY.EMPLOYEE_NAME]: 'Anna Bengtsson',
         [MODEL_PROPERTY.EMPLOYEE_SOCIAL_SECURITY_NUMBER]: '990102-1234',
         [MODEL_PROPERTY.EMPLOYEE_ADDRESS]: 'Cykelstigen 1',
         [MODEL_PROPERTY.EMPLOYEE_POSTAL_NUMBER]: '123 45',
@@ -92,11 +92,75 @@ function getAgreementTemplateData() {
 
 
 /* ==========================================================================
+   Crate New Agreement
+   ========================================================================== */
+
+function createNewAgreement() {
+    const agreementId = crypto.randomUUID();
+    location.assign(`/edit.html?id=${agreementId}`);
+}
+
+
+
+/* ==========================================================================
+   Save Form
+   ========================================================================== */
+
+function saveForm() {
+
+    // TODO: VALIDATE!
+
+    const agreementId = getAgreementId();
+    const agreementData = extractAgreementDataFromForm();
+    saveAgreementToStorage(agreementId, agreementData);
+
+    location.assign(`/index.html?id=${agreementId}`);
+}
+
+
+
+/* ==========================================================================
+   Extract Agreement Data From Form
+   ========================================================================== */
+
+function extractAgreementDataFromForm() {
+    const data = {};
+    for (const [key, value] of Object.entries(SELECTOR)) {
+        const input = document.querySelector(value);
+
+        if (!input) {
+            console.log('Could not find input', value);
+            continue;
+        }
+
+        data[key] = input.value;
+    }
+
+    return data;
+}
+
+
+
+/* ==========================================================================
+   Get Agreement Data From Storage
+   ========================================================================== */
+
+function saveAgreementToStorage(agreementId, agreementData) {
+    const db = DB.get();
+    db[agreementId] = agreementData;
+    DB.set(db);
+}
+
+
+
+/* ==========================================================================
    Get Agreement Data From Storage
    ========================================================================== */
 
 function getAgreementDataFromStorage(agreementId) {
-    return {};
+    const db = DB.get();
+    const agreement = db[agreementId];
+    return agreement || {};
 }
 
 
@@ -105,7 +169,11 @@ function getAgreementDataFromStorage(agreementId) {
    Hydrate
    ========================================================================== */
 
-function hydrate(employmentAgreementData) {
+function hydrate(employmentAgreementData, employmentAgreementTemplateData) {
+
+    // If employmentAgreementData is empty, loop will not run
+    // This happens when edit new agreement. Only template data
+    // is avaiable
 
     for (const [key, value] of Object.entries(employmentAgreementData)) {
 
@@ -115,8 +183,14 @@ function hydrate(employmentAgreementData) {
             continue;
         }
 
-        // TODO: if element is input, then, element.value = value
-        element.innerText = value;
+        if (element.tagName === 'INPUT') {
+            element.value = value;
+            element.setAttribute('value', value);
+            element.placeholder = employmentAgreementTemplateData[key];
+        } else {
+            element.innerText = value;
+        }
+
     }
 }
 
@@ -145,3 +219,14 @@ window.addEventListener('beforeprint', event => {
 window.addEventListener('afterprint', event => {
     document.documentElement.classList.remove('print');
 });
+
+
+
+/* ==========================================================================
+   DB
+   ========================================================================== */
+
+const DB = {
+    get: () => JSON.parse(localStorage.getItem(STORAGE_KEY)) || {},
+    set: data => localStorage.setItem(STORAGE_KEY, JSON.stringify(data || {}))
+}
