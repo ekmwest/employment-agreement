@@ -78,16 +78,20 @@ header button {
     background-color: transparent;
     color: #fff;
     border-radius: 50%;
-    transition: background-color .12s;
+    transition: background-color .16s, opacity .1s;
 }
 
 header button:hover {
     background-color: rgba(0, 0, 0, .2);
 }
 
+header button:active {
+    opacity: .6;
+}
+
 header button svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
 }
 
 
@@ -182,7 +186,7 @@ form {
    ========================================================================== */
 
 form h2 {
-    margin: 2em 0 .5em;
+    margin: 2em 0 .2em;
     text-align: center;
 }
 
@@ -264,13 +268,24 @@ form button {
     border: none;
     font: inherit;
     font-weight: 600;
-    padding: 8px 16px;
+    padding: 8px 16px 9px;
     border-radius: 6px;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, .2);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .26);
+    transition: opacity .1s;
+}
+
+form button:active {
+    opacity: .6;
 }
 
 form button.PRIMARY {
-    background-color: #0780ff;
+    background-color: #0074ee;
+    color: #fff;
+    box-shadow: none;
+}
+
+form button.DANGER {
+    background-color: #e61313;
     color: #fff;
     box-shadow: none;
 }
