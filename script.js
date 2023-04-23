@@ -2,8 +2,6 @@
    Constants
    ========================================================================== */
 
-const STORAGE_KEY = 'agreement';
-
 const MODEL = {
     EMPLOYEE_NAME: 'EMPLOYEE_NAME',
     EMPLOYEE_SOCIAL_SECURITY_NUMBER: 'EMPLOYEE_SOCIAL_SECURITY_NUMBER',
@@ -14,10 +12,14 @@ const MODEL = {
     EMPLOYMENT_ROLE: 'EMPLOYMENT_ROLE',
     SALARY_INITIAL_AMOUNT: 'SALARY_INITIAL_AMOUNT',
     SALARY_ACCOUNT_BANK_NAME: 'SALARY_ACCOUNT_BANK_NAME',
-    SALARY_ACCOUNT_NUMBER: 'SALARY_ACCOUNT_NUMBER'
+    SALARY_ACCOUNT_NUMBER: 'SALARY_ACCOUNT_NUMBER',
+    EMPLOYEE_NOTICE_PERIOD: 'EMPLOYEE_NOTICE_PERIOD',
+    EMPLOYER_NOTICE_PERIOD: 'EMPLOYER_NOTICE_PERIOD'
 }
 
 const SELECTOR = Object.fromEntries(Object.entries(MODEL).map(([k, v]) => [k, `.${pascalToHyphens(v)}`]));
+
+const STORAGE_KEY = 'agreement';
 
 
 
@@ -66,8 +68,8 @@ function getDefaultAgreement() {
         [MODEL.EMPLOYMENT_BEGINS]: '1 jan 2024',
         [MODEL.EMPLOYMENT_ROLE]: 'Designer',
         [MODEL.SALARY_INITIAL_AMOUNT]: '23 400',
-        [MODEL.SALARY_ACCOUNT_BANK_NAME]: 'Nordea',
-        [MODEL.SALARY_ACCOUNT_NUMBER]: '1234-1, 3232 765-0',
+        [MODEL.EMPLOYEE_NOTICE_PERIOD]: '1',
+        [MODEL.EMPLOYER_NOTICE_PERIOD]: '1',
     };
 }
 
@@ -102,7 +104,7 @@ function extractAgreementFromForm() {
             continue;
         }
 
-        agreement[key] = input.value;
+        agreement[key] = input.value.trim();
     }
 
     return agreement;

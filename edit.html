@@ -62,20 +62,23 @@
             <input type="text" class="salary-initial-amount">
         </label>
 
+
+        <h2>Uppsägning</h2>
+
         <label>
-            <span>Bank</span>
-            <input type="text" class="salary-account-bank-name">
+            <span>Arbetstagarens uppsägningstid (mån)</span>
+            <input type="text" class="employee-notice-period">
         </label>
 
         <label>
-            <span>Kontonummer</span>
-            <input type="text" class="salary-account-number">
+            <span>Arbetsgivarens uppsägningstid (mån)</span>
+            <input type="text" class="employer-notice-period">
         </label>
 
 
         <div class="buttons">
             <button type="button" onclick="location.assign('/')">Avbryt</button>
-            <button type="button" onclick="resetForm();" class="DANGER">Rensa</button>
+            <button type="button" onclick="resetForm();" class="DANGER">Reset</button>
             <button type="button" onclick="saveForm();" class="PRIMARY">Spara</button>
         </div>
     </form>

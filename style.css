@@ -136,8 +136,8 @@ h1 {
 
 h3 {
     margin-bottom: 0;
-    margin: 16px 0 2px;
-    font-size: 13px;
+    margin: 16px 0 3px;
+    font-size: inherit;
 }
 
 
@@ -186,8 +186,8 @@ form {
    ========================================================================== */
 
 form h2 {
-    margin: 2em 0 .2em;
-    text-align: center;
+    margin: 2em 0 .8em;
+    /* text-align: center; */
 }
 
 
