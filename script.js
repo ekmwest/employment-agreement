@@ -3,6 +3,8 @@
    ========================================================================== */
 
 const MODEL = {
+    AGREEMENT_TYPE: 'AGREEMENT_TYPE',
+    EMPLOYMENT_TYPE: 'EMPLOYMENT_TYPE',
     EMPLOYEE_NAME: 'EMPLOYEE_NAME',
     EMPLOYEE_SOCIAL_SECURITY_NUMBER: 'EMPLOYEE_SOCIAL_SECURITY_NUMBER',
     EMPLOYEE_ADDRESS: 'EMPLOYEE_ADDRESS',
@@ -11,8 +13,6 @@ const MODEL = {
     EMPLOYMENT_BEGINS: 'EMPLOYMENT_BEGINS',
     EMPLOYMENT_ROLE: 'EMPLOYMENT_ROLE',
     SALARY_INITIAL_AMOUNT: 'SALARY_INITIAL_AMOUNT',
-    SALARY_ACCOUNT_BANK_NAME: 'SALARY_ACCOUNT_BANK_NAME',
-    SALARY_ACCOUNT_NUMBER: 'SALARY_ACCOUNT_NUMBER',
     EMPLOYEE_NOTICE_PERIOD: 'EMPLOYEE_NOTICE_PERIOD',
     EMPLOYER_NOTICE_PERIOD: 'EMPLOYER_NOTICE_PERIOD'
 }
@@ -60,6 +60,8 @@ function getStoredAgreement() {
 
 function getDefaultAgreement() {
     return {
+        [MODEL.AGREEMENT_TYPE]: 'new',
+        [MODEL.EMPLOYMENT_TYPE]: 'permanent',
         [MODEL.EMPLOYEE_NAME]: 'Anna Bengtsson',
         [MODEL.EMPLOYEE_SOCIAL_SECURITY_NUMBER]: '990102-1234',
         [MODEL.EMPLOYEE_ADDRESS]: 'Cykelstigen 1',
@@ -70,6 +72,23 @@ function getDefaultAgreement() {
         [MODEL.SALARY_INITIAL_AMOUNT]: '23 400',
         [MODEL.EMPLOYEE_NOTICE_PERIOD]: '1',
         [MODEL.EMPLOYER_NOTICE_PERIOD]: '1',
+    };
+}
+
+function getEmptyAgreement() {
+    return {
+        [MODEL.AGREEMENT_TYPE]: 'new',
+        [MODEL.EMPLOYMENT_TYPE]: 'permanent',
+        [MODEL.EMPLOYEE_NAME]: '',
+        [MODEL.EMPLOYEE_SOCIAL_SECURITY_NUMBER]: '',
+        [MODEL.EMPLOYEE_ADDRESS]: '',
+        [MODEL.EMPLOYEE_POSTAL_NUMBER]: '',
+        [MODEL.EMPLOYEE_CITY]: '',
+        [MODEL.EMPLOYMENT_BEGINS]: '',
+        [MODEL.EMPLOYMENT_ROLE]: '',
+        [MODEL.SALARY_INITIAL_AMOUNT]: '',
+        [MODEL.EMPLOYEE_NOTICE_PERIOD]: '',
+        [MODEL.EMPLOYER_NOTICE_PERIOD]: '',
     };
 }
 
@@ -85,26 +104,41 @@ function saveForm() {
     location.assign('/');
 }
 
-function resetForm() {
-    Store.set(null);
-    location.assign('/edit.html');
+function exampleForm() {
+    hydrate(getDefaultAgreement(), getDefaultAgreement());
+    // Store.set(null);
+    // location.assign('/edit.html');
+}
+
+function clearForm() {
+    hydrate(getEmptyAgreement(), getDefaultAgreement());
 }
 
 function extractAgreementFromForm() {
 
-    // TODO: Validate
-
     const agreement = {};
 
     for (const [key, value] of Object.entries(SELECTOR)) {
-        const input = document.querySelector(value);
+        const inputs = document.querySelectorAll(value);
 
-        if (!input) {
-            console.log('Could not find input', value);
-            continue;
+        if (inputs.length === 1) {
+
+            agreement[key] = inputs[0].value.trim();
+
+        } else if (inputs.length > 1) {
+
+            for (const input of inputs) {
+                if (input.checked) {
+                    console.log(input.value)
+                    agreement[key] = input.value.trim();
+                }
+            }
+
+        } else {
+
+            console.log('input', value, 'not found')
         }
 
-        agreement[key] = input.value.trim();
     }
 
     return agreement;
@@ -120,19 +154,40 @@ function hydrate(agreement, defaultAgreement) {
 
     for (const [key, value] of Object.entries(agreement)) {
 
-        const element = document.querySelector(SELECTOR[key]);
+        const elements = document.querySelectorAll(SELECTOR[key]);
 
-        if (!element) {
-            console.log('Could not hydrate element (not found):', key);
-            continue;
-        }
+        if (elements.length === 1) {
+            const element = elements[0];
 
-        if (element.tagName === 'INPUT') {
-            element.value = value;
-            element.setAttribute('value', value);
-            element.setAttribute('placeholder', defaultAgreement[key]);
+            if (element.tagName === 'INPUT') {
+
+                element.value = value;
+                element.setAttribute('value', value);
+                element.setAttribute('placeholder', defaultAgreement[key]);
+
+            } else {
+                element.innerText = value;
+            }
+        } else if (elements.length > 1) {
+
+            if (elements[0].tagName === 'INPUT') {
+                for (const element of elements) {
+                    if (element.value === agreement[key]) {
+                        element.checked = true;
+                    }
+                }
+
+            } else {
+                for (const element of elements) {
+                    if (!element.matches(`.${agreement[key]}`)) {
+                        element.style.display = 'none';
+                    }
+                }
+            }
+
         } else {
-            element.innerText = value;
+
+            console.log('Could not hydrate element (not found):', key);
         }
     }
 }
@@ -158,6 +213,6 @@ function isEmpty(obj) {
    ========================================================================== */
 
 const Store = {
-    get: () => JSON.parse(localStorage.getItem(STORAGE_KEY)) || {},
-    set: agreement => localStorage.setItem(STORAGE_KEY, JSON.stringify(agreement || {}))
+    get: () => JSON.parse(sessionStorage.getItem(STORAGE_KEY)) || {},
+    set: agreement => sessionStorage.setItem(STORAGE_KEY, JSON.stringify(agreement || {}))
 }

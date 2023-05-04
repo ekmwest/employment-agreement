@@ -6,13 +6,48 @@
     <title>Anställningsavtal</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=block">
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/print.css">
     <script src="/script.js"></script>
 </head>
 
 <body>
+
+    <header class="edit">
+        <button type="button" onclick="location.assign('/')">Avbryt</button>
+        <button type="button" onclick="exampleForm();" class="DANGER">Exempeldata</button>
+        <button type="button" onclick="clearForm();" class="DANGER">Rensa</button>
+        <button type="button" onclick="saveForm();" class="PRIMARY">Spara</button>
+    </header>
+
     <form>
+
+        <h2>Avtalsform</h2>
+
+        <label class="radio-input">
+            <input type="radio" name="agreement-type" class="agreement-type" value="new">
+            <span>Nytt avtal</span>
+        </label>
+
+        <label class="radio-input">
+            <input type="radio" name="agreement-type" class="agreement-type" value="replacement">
+            <span>Ersätter tidigare avtal</span>
+        </label>
+
+
+        <h2>Anställningsform</h2>
+
+        <label class="radio-input">
+            <input type="radio" name="employment-type" class="employment-type" value="permanent">
+            <span>Fast anställning</span>
+        </label>
+
+        <label class="radio-input">
+            <input type="radio" name="employment-type" class="employment-type" value="probationary">
+            <span>Provanställning 6 mån</span>
+        </label>
+
 
         <h2>Arbetstagare</h2>
 
@@ -58,7 +93,7 @@
         <h2>Lön</h2>
 
         <label>
-            <span>Ingångslön</span>
+            <span>Lön vid avtalets ingående</span>
             <input type="text" class="salary-initial-amount">
         </label>
 
@@ -75,12 +110,6 @@
             <input type="text" class="employer-notice-period">
         </label>
 
-
-        <div class="buttons">
-            <button type="button" onclick="location.assign('/')">Avbryt</button>
-            <button type="button" onclick="resetForm();" class="DANGER">Reset</button>
-            <button type="button" onclick="saveForm();" class="PRIMARY">Spara</button>
-        </div>
     </form>
 </body>
 

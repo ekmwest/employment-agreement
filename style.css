@@ -15,7 +15,7 @@ html {
     margin: 0;
     padding: 0;
     background-color: #e0e0e0;
-    font-family: -apple-system, "Segoe UI", Helvetica, sans-serif;
+    font-family: 'Roboto Slab', serif;
     font-size: 12px;
 }
 
@@ -24,7 +24,7 @@ html.print {
 }
 
 html.form {
-    font-size: 16px;
+    font-size: 14px;
     background-color: #f3f3f3;
 }
 
@@ -37,6 +37,7 @@ html.form {
 body {
     margin: 0;
     padding: 0;
+    overflow-y: scroll;
 }
 
 
@@ -51,9 +52,14 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 8px;
     background-color: #005cbd;
     height: 56px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 
 .print header {
@@ -97,14 +103,38 @@ header button svg {
 
 
 /* ==========================================================================
+   HEADER.edit BUTTON
+   ========================================================================== */
+
+header.edit button {
+    cursor: pointer;
+    font-weight: 600;
+    padding: 10px 12px;
+    width: auto;
+    height: auto;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+header.edit button:hover {
+    background-color: rgba(255, 255, 255, 0.16);
+}
+
+header.edit button:active {
+    opacity: .7;
+}
+
+
+
+/* ==========================================================================
    Main
    ========================================================================== */
 
 main {
     background-color: #fff;
-    width: 780px;
+    width: 784px;
     min-height: 1100px;
-    margin: 32px auto;
+    margin: 86px auto 32px;
     padding: 64px;
     border-radius: 2px;
     box-shadow: 1px 2px 8px rgba(0, 0, 0, .4);
@@ -126,6 +156,7 @@ main {
 h1 {
     text-align: center;
     margin: 0 0 32px;
+    font-size: 32px;
 }
 
 
@@ -136,7 +167,7 @@ h1 {
 
 h3 {
     margin-bottom: 0;
-    margin: 16px 0 3px;
+    margin: 24px 0 3px;
     font-size: inherit;
 }
 
@@ -175,8 +206,9 @@ p {
 form {
     display: block;
     max-width: 480px;
-    margin: 0 auto;
+    margin: 112px auto 32px;
     padding: 0 8px 64px;
+    font-family: -apple-system, "Segoe UI", Helvetica, sans-serif;
 }
 
 
@@ -187,7 +219,7 @@ form {
 
 form h2 {
     margin: 2em 0 .8em;
-    /* text-align: center; */
+    font-size: 1.2em;
 }
 
 
@@ -201,6 +233,14 @@ form label {
     margin-bottom: 1.5em;
 }
 
+form label.radio-input {
+    margin-bottom: .2em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 
 
 /* ==========================================================================
@@ -211,6 +251,12 @@ form label span {
     display: block;
     font-weight: 600;
     padding: 0 0 .2em .3em;
+}
+
+form label.radio-input span {
+    display: inline-block;
+    padding: 0;
+    font-weight: normal;
 }
 
 
@@ -239,6 +285,16 @@ input[type=text]:focus {
 input[type=text]::placeholder {
     color: #bbb;
     font-style: italic;
+}
+
+
+
+/* ==========================================================================
+   FORM RADIO INPUT
+   ========================================================================== */
+
+input[type=radio] {
+    transform: scale(1.2);
 }
 
 
